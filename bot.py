@@ -1,12 +1,26 @@
+import json
 import telebot
-import os
+from apscheduler.schedulers.blocking import BlockingScheduler
 
-TOKEN = os.getenv("BOT_TOKEN")
-bot = telebot.TeleBot(TOKEN)
+# Читаем config.json
+with open('config.json', 'r', encoding='utf-8') as f:
+    config = json.load(f)
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.send_message(message.chat.id, "Привет! Я работаю на Render!")
+bot_token = config['bot_token']
+groups = config['groups']
+messages = config['messages']
+cron_schedule = config['schedule_interval']
 
-print("Бот запущен...")
-bot.polling()
+bot = telebot.TeleBot(bot_token)
+scheduler = BlockingScheduler()
+
+def send_daily_tip():
+    for group in groups:
+        for message in messages:
+            bot.send_message(group["id"], message["content"])
+
+# Расписание (например, каждый день в 09:00)
+scheduler.add_job(send_daily_tip, 'cron', hour=9, minute=0)
+
+print("Бот работает по расписанию...")
+scheduler.start()
