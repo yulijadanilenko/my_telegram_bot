@@ -9,7 +9,6 @@ with open('config.json', 'r', encoding='utf-8') as f:
 bot_token = config['bot_token']
 groups = config['groups']
 messages = config['messages']
-cron_schedule = config['schedule_interval']
 
 bot = telebot.TeleBot(bot_token)
 scheduler = BlockingScheduler()
@@ -19,7 +18,7 @@ def send_daily_tip():
         for message in messages:
             bot.send_message(group["id"], message["content"])
 
-# Расписание (например, каждый день в 09:00)
+# Расписание — каждый день в 9:00
 scheduler.add_job(send_daily_tip, 'cron', hour=9, minute=0)
 
 print("Бот работает по расписанию...")
