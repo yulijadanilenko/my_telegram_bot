@@ -1,0 +1,10 @@
+{
+  "bot_token": "7821435288:AAGpRTwWtwjzc-vV34bA_N-ZZNGTkhzaQAs",
+  "groups": [
+    { "id": "-1002519109332", "name": "energogymn_test" }
+  ],
+  "messages": [
+    { "name": "daily_tip", "content": "Выключайте свет, когда уходите из комнаты." }
+  ],
+  "schedule_interval": "0 9 * * *"
+}
